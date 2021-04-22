@@ -5,32 +5,15 @@ class Engineer extends Member {
     constructor (name, id, email, github) {
         super (name, id, email)
         this.github = github;
-        this.role = 'Engineer';
         };
+
+        addGitHub() {
+            return this.github;
+        }
+        addRole() {
+            return 'Engineer';
+        }
 };
 
-const addEngineer = async () => {
-    return await inquirer.prompt([
-        {
-            type: 'input',
-            name: 'name',
-            message: 'What is the name of this team member?',
-        },
-        {
-            type: 'input',
-            name: 'id',
-            message: 'What is their employee id?',
-        },
-        {
-            type: 'input',
-            name: 'email',
-            message: 'What is their email address?',
-        },
-        {
-            type: 'input',
-            name: 'github',
-            message: 'What is their github username?',
-        },
-    ])};
 
-module.exports = addEngineer;
+module.exports = Engineer;

@@ -1,9 +1,8 @@
 //make new member
 class Member {
-    constructor (name, id, role, email) {
+    constructor (name, id, email) {
     this.name = name;
     this.id = id;
-    this.role = role;
     this.email = email;
     }
     //return function to get values
@@ -12,9 +11,6 @@ class Member {
     }
     getId () {
         return this.id;
-    }
-    getRole () {
-        return this.role;
     }
     getEmail () {
         return this.email;

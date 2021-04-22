@@ -1,54 +1,139 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
-const addEngineer = require('./members/engineer.js');
-const addManager = require('./members/manager.js');
-const addIntern = require('./members/intern.js');
+const Engineer = require('./members/engineer.js');
+const Manager = require('./members/manager.js');
+const Intern = require('./members/intern.js');
+const empArray = [];
 
-
-
-// TODO: Create an array of questions for user input
-const promptUser = async () => {
-    return await inquirer.prompt([
+const empQuestions =  [
         {
             type: 'list',
             message: 'What is the role of this team member?',
             name: 'title',
-            choices: ['Intern','Engineer', 'Manager', 'Team Done!']
+            choices: ['Intern','Engineer', 'Manager']
         },
-
+        {
+            type: 'input',
+            name: 'name',
+            message: 'What is the name of this team member?',
+        },
+        {
+            type: 'input',
+            name: 'id',
+            message: 'What is their employee id?',
+        },
+        {
+            type: 'input',
+            name: 'email',
+            message: 'What is their email address?',
+        },
         
-    ]).then(userSelect=>{
+    ];
 
-        switch(userSelect.title){
+const addManager = [
+    {
+        type: 'input',
+        name: 'number',
+        message: 'What is their phone number?',
+    },
+    {
+        type: 'list',
+        message: 'Do you have another team member to add?',
+        name: 'done',
+        choices: ['Yes', 'No']
+    }
+]
+
+const addIntern = [
+    {
+        type: 'input',
+        name: 'school',
+        message: 'What school do they attend?',
+    },
+    {
+        type: 'list',
+        message: 'Do you have another team member to add?',
+        name: 'done',
+        choices: ['Yes', 'No']
+    }
+];
+
+const addEngineer = [
+            
+    {
+        type: 'input',
+        name: 'github',
+        message: 'What is their github username?',
+    },
+    {
+        type: 'list',
+        message: 'Do you have another team member to add?',
+        name: 'done',
+        choices: ['Yes', 'No']
+    }
+];
+
+// TODO: Create an array of questions for user input
+let loopQuestions;
+
+const promptUser = async () => {
+    do {
+
+    
+    
+    const ansEmpOne = await inquirer.prompt(empQuestions);
+    let ansEmpTwo;
+    const {
+        name, email, title, id
+    } = ansEmpOne;
+    let employee;
+        
+        
+        
+        switch(title){
             case 'Engineer':
-                addEngineer();
-                 /* async () => {
-                    addEngineer().then(answers =>{
-                    
-                    return answers;
-                    
-                }); await (start())}; */
+                ansEmpTwo = await inquirer.prompt(addEngineer);
+                const {
+                    github
+                } = ansEmpTwo;
+                employee = new Engineer(name, id, email, github)
                 break;
             case 'Manager':
-                addManager();
+                ansEmpTwo = await inquirer.prompt(addManager);
+                const {
+                    number
+                } = ansEmpTwo;
+                employee = new Manager(name, id, email, number)
                 break;
             case 'Intern':
-                addIntern();
-                break;
-            case 'Team Done!':
-                console.log('File Written');
-                break;
+                ansEmpTwo = await inquirer.prompt(addIntern);
+                const {
+                    school
+                } = ansEmpTwo;
+                employee = new Intern(name, id, email, school)
+                break;     
+            default:
+                 init();          
             
         }
-    })
+        
+        empArray.push(employee);
+        loopQuestions = ansEmpTwo.done
+        
+        
+    
+} while (loopQuestions === 'Yes');
 };
 
 
 
+//pass empArray through 
+
 
 
 async function init () {
-    const answers = await start();
+    const answers = await promptUser();
+    console.log(empArray);
     const baseHTML = `
     
     <!DOCTYPE html>
@@ -125,16 +210,16 @@ const endHTML = `
     fs.writeFile('./index.html', readMe, error=> {
         console.log(error)
     })
-}
+};
 
 // Function call to initialize app
 
 
-const init = () => {
+const writeHTML = (basehtml, manHTML, engHTML, intHTML, endHTML) => {
     promptUser()
-      .then((answers) => writeFileAsync('index.html', generateHTML(answers)))
+      .then((answers) => fs.writeFileAsync('./generatedHTML/index.html', generateHTML(answers)))
       .then(() => console.log('Successfully wrote your page to index.html'))
       .catch((err) => console.error(err));
   };
   
-  init();
+  promptUser();
