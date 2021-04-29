@@ -5,6 +5,7 @@ const Manager = require('./members/manager.js');
 const Intern = require('./members/intern.js');
 const empArray = [];
 
+
 const empQuestions =  [
         {
             type: 'list',
@@ -96,21 +97,21 @@ const promptUser = async () => {
                 const {
                     github
                 } = ansEmpTwo;
-                employee = new Engineer(name, id, email, github)
+                const engineer = new Engineer(name, id, email, github)
                 break;
             case 'Manager':
                 ansEmpTwo = await inquirer.prompt(addManager);
                 const {
                     number
                 } = ansEmpTwo;
-                employee = new Manager(name, id, email, number)
+                const manager = new Manager(name, id, email, number)
                 break;
             case 'Intern':
                 ansEmpTwo = await inquirer.prompt(addIntern);
                 const {
                     school
                 } = ansEmpTwo;
-                employee = new Intern(name, id, email, school)
+                const intern = new Intern(name, id, email, school)
                 break;     
             default:
                  init();          
@@ -123,6 +124,7 @@ const promptUser = async () => {
         
     
 } while (loopQuestions === 'Yes');
+    console.log('File Written');    
 };
 
 
@@ -133,8 +135,10 @@ const promptUser = async () => {
 
 async function init () {
     const answers = await promptUser();
-    console.log(empArray);
-    const baseHTML = `
+    console.log(empArray)
+    
+    const baseHTML = () => {
+        return `
     
     <!DOCTYPE html>
 <html lang="en">
@@ -153,11 +157,13 @@ async function init () {
 <body class='bg-gray-200'>
     <h1 class='text-white bg-red-400 text-6xl text-center mx-auto p-8'>My Team</h1>
 <div class='grid grid-cols-3 gap-4'>`
+    };
 
-const manHTML = `
+const mHTML = manager =>{ 
+    const manHTML = `
     <div class='flex flex-col m-6 bg-gray-100 rounded-full overflow-hidden shadow-lg'>
         <div class='flex flex-col border bg-blue-500 w-auto p-2 border-solid rounded box-shadow-md'>
-            <h1 class='text-white mx-auto bg-blue-500'>` + `${answer.role.manager}`+ `</h1>
+            <h1 class='text-white mx-auto bg-blue-500'>` + `${manager.getName()}`+ `</h1>
             <i class="text-white mx-auto fas fa-mug-hot"></i>
         </div>
         <div class='bg-gray-100 mx-auto p-4'>
@@ -168,12 +174,15 @@ const manHTML = `
 
 
     </div>`
+    return manHTML;
+};
 
-const engHTML = `
+const engHTML = engineer => {
+    return  `
 
     <div class='flex flex-col m-6 bg-gray-100 rounded-full overflow-hidden shadow-lg'>
         <div class='flex flex-col border bg-blue-500 w-auto p-2 border-solid rounded box-shadow-md'>
-            <h1 class='text-white mx-auto bg-blue-500'>` +`${answer.role.engineer}`+ `</h1>
+            <h1 class='text-white mx-auto bg-blue-500'>` +`${engineer.getName()}`+ `</h1>
             <i class="fas fa-glasses text-white mx-auto"></i>
         </div>
         <div class='bg-gray-100 mx-auto p-4'>
@@ -184,12 +193,14 @@ const engHTML = `
 
 
     </div>`
+};
 
-const intHTML = `
+const intHTML = intern => {
+    return `
 
     <div class='flex flex-col m-6 bg-gray-100 rounded-full overflow-hidden shadow-lg'>
         <div class='flex flex-col border bg-blue-500 w-auto p-2 border-solid rounded box-shadow-md'>
-            <h1 class='text-white mx-auto bg-blue-500'>` + `${answer.role.intern}` + `</h1>
+            <h1 class='text-white mx-auto bg-blue-500'>` + `${intern.getName()}` + `</h1>
             <i class="fas fa-user-graduate text-white mx-auto"></i>
         </div>
         <div class='bg-gray-100 mx-auto p-4'>
@@ -200,6 +211,7 @@ const intHTML = `
 
 
     </div>`
+    };
 
 const endHTML = `
     </div>  
@@ -207,19 +219,21 @@ const endHTML = `
 </html>`
 
 
-    fs.writeFile('./index.html', readMe, error=> {
+    /* fs.writeFile('./generatedHTML/index.html',   ,  error=> {
         console.log(error)
-    })
+    }) */
 };
 
 // Function call to initialize app
-
+/* empArray.push(team
+    .filter(employee=>employee.getRole()==='Manager')
+    .map(manager=>manHTML(manager))) */
 
 const writeHTML = (basehtml, manHTML, engHTML, intHTML, endHTML) => {
-    promptUser()
-      .then((answers) => fs.writeFileAsync('./generatedHTML/index.html', generateHTML(answers)))
+    init()
+      .then((answers) => fs.writeFile('./generatedHTML/index.html', writeHTML(basehtml, manHTML, engHTML, intHTML, endHTML)))
       .then(() => console.log('Successfully wrote your page to index.html'))
       .catch((err) => console.error(err));
   };
   
-  promptUser();
+  writeHTML();
