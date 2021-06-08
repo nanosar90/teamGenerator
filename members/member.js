@@ -1,5 +1,5 @@
 //make new member
-class Member {
+class Employee {
     constructor (name, id, email) {
     this.name = name;
     this.id = id;
@@ -14,8 +14,11 @@ class Member {
     }
     getEmail () {
         return this.email;
+    }
+    getRole() {
+        return 'Employee';
     };
 };
 
-module.exports = Member;
+module.exports = Employee;
 

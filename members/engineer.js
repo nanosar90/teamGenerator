@@ -1,7 +1,7 @@
-const Member = require('./member.js');
-const inquirer = require('inquirer');
+const Employee = require('./member.js');
 
-class Engineer extends Member {
+
+class Engineer extends Employee {
     constructor (name, id, email, github) {
         super (name, id, email)
         this.github = github;
