@@ -103,7 +103,7 @@ const promptUser = async () => {
                     github
                 } = ansEmpTwo;
                 employee = new Engineer(name, id, email, github)
-                console.log(employee);
+                
                 break;
             case 'Manager':
                 ansEmpTwo = await inquirer.prompt(addManager);
@@ -111,7 +111,7 @@ const promptUser = async () => {
                     number
                 } = ansEmpTwo;
                 employee = new Manager(name, id, email, number)
-                console.log(employee);
+                
                 break;
             case 'Intern':
                 ansEmpTwo = await inquirer.prompt(addIntern);
@@ -119,7 +119,7 @@ const promptUser = async () => {
                     school
                 } = ansEmpTwo;
                 employee = new Intern(name, id, email, school)
-                console.log(employee);
+                
                 break;     
             default:
                  throw new Error('invalid role.');          

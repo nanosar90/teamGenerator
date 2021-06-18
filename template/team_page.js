@@ -1,24 +1,24 @@
 const generator = team => {
     const manHTML = manager =>{ 
-        const manHTML = `
+        return `
         <div class='flex flex-col m-6 bg-gray-100 rounded-full overflow-hidden shadow-lg'>
             <div class='flex flex-col border bg-blue-500 w-auto p-2 border-solid rounded box-shadow-md'>
                 <h1 class='text-white mx-auto bg-blue-500'>` + `${manager.getName()}`+ `</h1>
                 <i class="text-white mx-auto fas fa-mug-hot"></i>
             </div>
             <div class='bg-gray-100 mx-auto p-4'>
-                <p class='bg-white border-solid p-2 w-64'>ID:</p>
-                <p class='bg-white border-solid p-2'>Email: </p>
-                <p class='bg-white border-solid p-2'>Office Number:</p>
+                <p class='bg-white border-solid p-2 w-64'>ID:`+`${manager.getId()}`+`</p>
+                <p class='bg-white border-solid p-2'>Email:`+`${manager.getEmail()}`+` </p>
+                <p class='bg-white border-solid p-2'>Office Number:`+`${manager.getNumber()}`+`</p>
             </div>
+        
     
-    
-        </div>`
-        return manHTML;
+        </div>`;
+        /* return manHTML; */
     };
     
     const engHTML = engineer => {
-        return  `
+            return `
     
         <div class='flex flex-col m-6 bg-gray-100 rounded-full overflow-hidden shadow-lg'>
             <div class='flex flex-col border bg-blue-500 w-auto p-2 border-solid rounded box-shadow-md'>
@@ -26,17 +26,18 @@ const generator = team => {
                 <i class="fas fa-glasses text-white mx-auto"></i>
             </div>
             <div class='bg-gray-100 mx-auto p-4'>
-                <p class='bg-white border-solid p-2 w-64'>ID:</p>
-                <p class='bg-white border-solid p-2'>Email: </p>
-                <p class='bg-white border-solid p-2'>Github:</p>
+                <p class='bg-white border-solid p-2 w-64'>ID:`+`${engineer.getId()}`+`</p>
+                <p class='bg-white border-solid p-2'>Email:`+`${engineer.getEmail()}`+` </p>
+                <p class='bg-white border-solid p-2'>Github:`+`${engineer.addGitHub()}`+`</p>
             </div>
     
     
-        </div>`
+        </div>`;
+        /* return engHTML */
     };
     
     const intHTML = intern => {
-        return `
+            return `
     
         <div class='flex flex-col m-6 bg-gray-100 rounded-full overflow-hidden shadow-lg'>
             <div class='flex flex-col border bg-blue-500 w-auto p-2 border-solid rounded box-shadow-md'>
@@ -50,23 +51,25 @@ const generator = team => {
             </div>
     
     
-        </div>`
+        </div>`;
+        /* return intHTML */
         };
 
         const empArray = [];
-
+        console.log('team page' + empArray);
         empArray.push(team
             .filter(employee=>employee.getRole()==='Manager')
-            .map(manager=>manHTML(manager)))
+            .map(manager=>manHTML(manager)));
 
         empArray.push(team
             .filter(employee=>employee.getRole()==='Engineer')
-            .map(engineer=>engHTML(engineer)))
+            .map(engineer=>engHTML(engineer)));
 
         empArray.push(team
             .filter(employee=>employee.getRole()==='Intern')
-            .map(intern=>intHTML(intern)))
+            .map(intern=>intHTML(intern)));
 
+            console.log(empArray);
         return empArray.join('');
 
         
